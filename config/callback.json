@@ -6,10 +6,12 @@
     "AccountBook.illegal": "当前用户尚未提供该功能",
     "AccountBook.ok": "欢迎来到帐记服务中心，目前功能尚在开发中，功能可能会不稳定\n选择服务：\n1.余额查询\n2.发起转账请求（账户资金周转服务）\n【*】返回上一层",
     "AccountBook.checkout": "请确认是否要查询余额信息？（回复0即可）\n【*】返回上一层\n【#】返回主菜单",
+    "AccountBook.checkout.ok": "Model.AccountBook.checkout",
     "AccountBook.transfer": "请输入你要提取的金额（仅允许纯数字）：\n【*】返回上一层\n【#】返回主菜单",
+    "AccountBook.transfer.ok": "Model.AccountBook.transfer",
     "DevZone.illegal": "你没有权限使用此功能",
     "DevZone.ok": "启动开发者模式，用户身份验证已完成\n\n1.AccountBook信息检查\n2.用户列表\n3.用户检查",
     "DevZone.ab_check": "检索，用户Transfer信息\n用法：on [ID] for [Value]\n\n",
     "DevZone.userlist": "检索，所有注册的用户列表\n\n",
-    "DevZone.usercheck": "使用ID编号来定位用户"
+    "DevZone.usercheck": "使用ID编号来定位用户（参考用户列表）\n用法：info [ID]"
 }

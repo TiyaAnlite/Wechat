@@ -15,10 +15,14 @@ class UserReader(object): #用户数据读写器
             print "[Controller] UserReader Callback: ", identifier #将抛出的错误输出到控制台
 
 class CallBackReader(object): #返回码解析对象，服务初始化时调用
-    pass
+    def __init__(self):
+        file = open("config/callback.json", "r")
+        self.Data = json.loads(file.read())
 
 class ListReader(object): #菜单列表解析对象，服务初始化时调用
-    pass
+    def __init__(self):
+        file = open("config/list.json", "r")
+        self.Data = json.loads(file.read())
 
 class ContentReader(object): #文本解析中心
     pass

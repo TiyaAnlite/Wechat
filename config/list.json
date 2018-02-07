@@ -1,0 +1,29 @@
+{
+    "Main":{
+        "1": "AccountBook",
+        "2": "DevZone",
+        "*": "Main",
+        "#": "Main"
+    },
+    "AccountBook": {
+        "1": "AccountBook.checkout",
+        "2": "AccountBook.transfer",
+        "*": "Main",
+        "#": "Main"
+    },
+    "AccountBook.checkout": {
+        "0": "AccountBook.checkout.ok",
+        "*": "AccountBook",
+        "#": "Main"
+    },
+    "AccountBook.transfer": {
+        "all": "AccountBook.transfer.ok",
+        "*": "AccountBook",
+        "#": "Main"
+    },
+    "DevZone": {
+         "1": "DevZone.ab_check",
+         "2": "DevZone.userlist",
+         "3": "DevZone.usercheck"
+    }
+}
