@@ -1,0 +1,14 @@
+{
+    "Name": "xxx",
+    "NickName": "abc",
+    "Status": "Main",
+    "Permission": {
+        "AccountBook": true,
+        "DevZone": false
+    },
+    "Data.AccountBook": {
+        "Count": 27,
+        "TransferCount": 0
+    }
+    
+}

@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+# filename: handle.py
+
+import hashlib
+import web
+import reply
+import receive
+import Controller
+
+           
+class Handle(object):
+    def GET(self):
+        try:
+            data = web.input()
+            if len(data) == 0:
+                return "hello, this is handle view"
+            signature = data.signature
+            timestamp = data.timestamp
+            nonce = data.nonce
+            echostr = data.echostr
+            token = "872855454" #请按照公众平台官网\基本配置中信息填写
+
+            list = [token, timestamp, nonce]
+            list.sort()
+            sha1 = hashlib.sha1()
+            map(sha1.update, list)
+            hashcode = sha1.hexdigest()
+            print "Handle/GET func: hashcode, signature: ", hashcode, signature
+            if hashcode == signature:
+                return echostr
+            else:
+                return ""
+        except Exception, Argument:
+            return Argument
+
+    def POST(self):
+        try:
+            webData = web.data()
+            print "Handle/POST: webdata is ", webData
+   #后台打日志
+            recMsg = receive.parse_xml(webData)
+            print "recMsg is ", recMsg
+            print "[Debug]recMsg.MsgType is ", recMsg.MsgType
+            if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text': #主要内容
+                toUser = recMsg.FromUserName
+                fromUser = recMsg.ToUserName
+                content = recMsg.Content
+                recontent = Controller.input(toUser, content)
+                # replyMsg = reply.TextMsg(toUser, fromUser, recontent)
+                replayMsg = "测试状态"
+                return replyMsg.send()
+            if isinstance(recMsg, receive.EventMsg) and recMsg.MsgType == 'event' and recMsg.Event == 'subscribe': #订阅部分事件推送
+                toUser = recMsg.FromUserName
+                fromUser = recMsg.ToUserName
+                content = "欢迎订阅Focot信息交互平台\n\n新用户需要注册后才能使用：\n定制用户请回复唯一Api Key\n无key或普通用户请直接回复0"
+                replyMsg = reply.TextMsg(toUser, fromUser, content)
+                replytext = replyMsg.send()
+                print "Callback Data is ", replytext
+                return replytext
+            else:
+                print "[Msg PASS]"
+                return "success"
+        except Exception, Argment:
+            print "except: ", Argment
+            return Argment
