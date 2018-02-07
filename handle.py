@@ -39,20 +39,21 @@ class Handle(object):
             print "Handle/POST: webdata is ", webData
    #后台打日志
             recMsg = receive.parse_xml(webData)
+            global IOCallBack, IOList #重新强调下IOCallBack和IOList ，以免无法找到
             print "recMsg is ", recMsg
             print "[Debug]recMsg.MsgType is ", recMsg.MsgType
             if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text': #主要内容
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
                 content = recMsg.Content
-                recontent = Controller.input(toUser, content)
-                # replyMsg = reply.TextMsg(toUser, fromUser, recontent)
-                replayMsg = "测试状态"
+                recontent = Controller.input(toUser, content, IOCallBack, IOList) #用户信息，内容送入控制器，同时将两个系统IO变量送回控制器
+                replyMsg = reply.TextMsg(toUser, fromUser, recontent) 
+                # replayMsg = "测试状态"
                 return replyMsg.send()
             if isinstance(recMsg, receive.EventMsg) and recMsg.MsgType == 'event' and recMsg.Event == 'subscribe': #订阅部分事件推送
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
-                content = "欢迎订阅Focot信息交互平台\n\n新用户需要注册后才能使用：\n定制用户请回复唯一Api Key\n无key或普通用户请直接回复0"
+                content = IOCallBack.Data[Main.subscribe] #这里唯一一次脱离控制器调用公共IO
                 replyMsg = reply.TextMsg(toUser, fromUser, content)
                 replytext = replyMsg.send()
                 print "Callback Data is ", replytext
