@@ -2,30 +2,44 @@
 # filename: Controller.py
 
 import json
+import os
 
 class UserReader(object): #用户数据读写器
     def __init__(self, user):
-        try:
+        if os.path.isfile("users/" + key + ".json"):
             file = "users/" + str(user)
             re_UserData = open(file, "r+")
-            self.UserData = json.loads(re_UserData.read)
-            self.UserRead = True
-        except expression as identifier:
+            self.Data = json.loads(re_UserData.read)
+            self.Read = True
+            re_UserData.close()
+        else:
             self.UserRead = False
-            print "[Controller] UserReader Callback: ", identifier #将抛出的错误输出到控制台
 
     def register(self, user, key=False): #用户注册
-        file = open("config/apikey.json", "r+")
-        api_key = json.loads(file.read())
+        key_file = open("config/apikey.json", "r+")
+        api_key = json.loads(key_file.read())
+        key_file.close()
         NickName = None
+        Status = "Main"
         Permission = { "AccountBook": False, "DevZone": False}
         if key:
             try:
                  if api_key[key][isUsed]:
                      raise MyException("This Api Key has benn used: ",key)
-                 NickName = api_key[key][]
+                 NickName = api_key[key]["NickName"]
+                 Permission = api_key[key]["Permission"]
+                 if Permission[AccountBook]:
+                     Permission[Data.AccountBook] = AccountBook_Socket()
+                
             except expression as identifier:
                 print "[Controller] UserRegister Callback: ", identifier
+                return "Content.illegalkey"
+        else:
+            pass
+
+    def AccountBook_Socket()
+        data = {"Count":0, "TransferCount":0}
+        return data
 
 
 
@@ -48,7 +62,16 @@ class ContentReader(object): #文本解析中心
 
 def input(User, Content, IOCallBack, IOList):
     User = UserReader(User)
-    if User.UserRead: #用户鉴权
+    if User.Read: #用户鉴权
         pass
     else:
-        pass
+        try:
+            key = int(Content)
+            if key == 0:
+                
+            else:
+                pass
+        except:
+            pass
+        finally:
+            pass
