@@ -2,7 +2,7 @@
 # filename: main.py
 import web
 from handle import Handle
-from Controller import CallBackReader, ListReader
+from controller import CallBackReader, ListReader
 
 def reReadIO(): #系统初始化时预读系统配置，减少并发IO负担与冲突
     IOCallBack = CallBackReader()

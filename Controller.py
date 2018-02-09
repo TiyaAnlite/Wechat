@@ -74,4 +74,4 @@ def input(User, Content, IOCallBack, IOList):
         except:
             pass
         finally:
-            pass
+            return "测试状态"
