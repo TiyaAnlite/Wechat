@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-# filename: Controller.py
+# filename: controller.py
 
 import json
 import os
 
 class UserReader(object): #用户数据读写器
     def __init__(self, user):
-        if os.path.isfile("users/" + key + ".json"):
+        if os.path.isfile("users/" + user + ".json"):
             file = "users/" + str(user)
             re_UserData = open(file, "r+")
             self.Data = json.loads(re_UserData.read)
             self.Read = True
             re_UserData.close()
         else:
-            self.UserRead = False
+            self.Read = False
 
     def register(self, user, key=False): #用户注册
         key_file = open("config/apikey.json", "r+")
@@ -37,7 +37,7 @@ class UserReader(object): #用户数据读写器
         else:
             pass
 
-    def AccountBook_Socket()
+    def AccountBook_Socket(self):
         data = {"Count":0, "TransferCount":0}
         return data
 
@@ -48,6 +48,7 @@ class CallBackReader(object): #返回码解析对象，服务初始化时调用
         file = open("config/callback.json", "r")
         self.Data = json.loads(file.read())
         file.close()
+    
 
 class ListReader(object): #菜单列表解析对象，服务初始化时调用
     def __init__(self):
@@ -68,6 +69,7 @@ def input(User, Content, IOCallBack, IOList):
         try:
             key = int(Content)
             if key == 0:
+                pass
                 
             else:
                 pass
