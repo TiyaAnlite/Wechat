@@ -37,7 +37,7 @@ class UserReader(object): #用户数据读写器
         else:
             pass
 
-    def AccountBook_Socket()
+    def AccountBook_Socket(self):
         data = {"Count":0, "TransferCount":0}
         return data
 
