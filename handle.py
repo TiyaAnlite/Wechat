@@ -5,10 +5,15 @@ import hashlib
 import web
 import reply
 import receive
-import Controller
+import controller
 
            
 class Handle(object):
+    def reReadIO(self): #系统初始化时预读系统配置，减少并发IO负担与冲突
+        IOCallBack = controller.CallBackReader()
+        IOList = controller.ListReader()
+        return IOCallBack.Data, IOList.Data
+
     def GET(self):
         try:
             data = web.input()
@@ -39,14 +44,14 @@ class Handle(object):
             print "Handle/POST: webdata is ", webData
    #后台打日志
             recMsg = receive.parse_xml(webData)
-            global IOCallBack, IOList #重新强调下IOCallBack和IOList ，以免无法找到
             print "recMsg is ", recMsg
             print "[Debug]recMsg.MsgType is ", recMsg.MsgType
+            IOCallBack, IOList = self.reReadIO()
             if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text': #主要内容
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
                 content = recMsg.Content
-                recontent = Controller.input(toUser, content, IOCallBack, IOList) #用户信息，内容送入控制器，同时将两个系统IO变量送回控制器
+                recontent = controller.input(toUser, content, IOCallBack, IOList) #用户信息，内容送入控制器，同时将两个系统IO变量送回控制器
                 replyMsg = reply.TextMsg(toUser, fromUser, recontent) 
                 # replayMsg = "测试状态"
                 return replyMsg.send()
