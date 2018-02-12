@@ -9,7 +9,7 @@ import controller
 
            
 class Handle(object):
-    def reReadIO(self): #系统初始化时预读系统配置，减少并发IO负担与冲突
+    def reReadIO(self): #读取系统配置
         IOCallBack = controller.CallBackReader()
         IOList = controller.ListReader()
         return IOCallBack.Data, IOList.Data
@@ -58,7 +58,7 @@ class Handle(object):
             if isinstance(recMsg, receive.EventMsg) and recMsg.MsgType == 'event' and recMsg.Event == 'subscribe': #订阅部分事件推送
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
-                content = IOCallBack.Data[Main.subscribe] #这里唯一一次脱离控制器调用公共IO
+                content = IOCallBack["Main.subscribe"].encode("utf-8") #这里唯一一次脱离控制器调用公共IO
                 replyMsg = reply.TextMsg(toUser, fromUser, content)
                 replytext = replyMsg.send()
                 print "Callback Data is ", replytext
