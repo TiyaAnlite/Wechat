@@ -117,13 +117,20 @@ class ListReader(object): #菜单列表解析对象，服务初始化时调用
             
 
 class ContentReader(object): #文本解析中心
-    pass
+    def __init__(self, user, content, io): #文本解析中心接受用户数据，请求内容和系统IO，初始化当前状态和数据接口
+        self.Userdata = user
+        self.Content = content
+        self.IO = io
+
+    def process(self):
+        pass
 
 
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
     User = UserReader(User)
     if User.Read: #用户鉴权
-        pass
+        Reader = ContentReader(User.Data, Content, IOList)
+        data, callback = ContentReader.process()
 
     else: #非法用户区域
         try: #未注册用户输入的是数字？
