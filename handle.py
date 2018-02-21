@@ -46,16 +46,19 @@ class Handle(object):
             recMsg = receive.parse_xml(webData)
             print "recMsg is ", recMsg
             print "[Debug]recMsg.MsgType is ", recMsg.MsgType
-            IOCallBack, IOList = self.reReadIO()
+            
             if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text': #主要内容
+                IOCallBack, IOList = self.reReadIO() #IO操作在分支下独立操作，避免无效消息消耗IO
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
                 content = recMsg.Content
-                recontent = controller.input(toUser, content, IOCallBack, IOList) #用户信息，内容送入控制器，同时将两个系统IO变量送回控制器
-                replyMsg = reply.TextMsg(toUser, fromUser, recontent) 
+                recontent = controller.input(toUser, content, IOList) #用户信息，内容送入控制器，同时将两个系统IO变量送回控制器
+                IOrecontent = IOCallBack[recontent].encode("utf-8") #中文信息必须要先被UTF-8编码，IOCallback不再送入控制器
+                replyMsg = reply.TextMsg(toUser, fromUser, IOrecontent) 
                 # replayMsg = "测试状态"
                 return replyMsg.send()
             if isinstance(recMsg, receive.EventMsg) and recMsg.MsgType == 'event' and recMsg.Event == 'subscribe': #订阅部分事件推送
+                IOCallBack, IOList = self.reReadIO()
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
                 content = IOCallBack["Main.subscribe"].encode("utf-8") #这里唯一一次脱离控制器调用公共IO

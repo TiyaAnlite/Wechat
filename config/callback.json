@@ -2,6 +2,7 @@
     "Content.illegal": "当前输入指令有误，请重新输入",
     "Content.illegalkey": "输入的Api Key有误",
     "Content.keyok": "用户绑定完成",
+    "Content.onkeyok": "新用户注册完成",
     "Main.subscribe": "欢迎订阅Focot信息交互平台\n\n新用户需要注册后才能使用：\n定制用户请回复唯一Api Key\n无key或普通用户请直接回复0",
     "Main.illegal": "当前用户尚未注册，请直接回复数字0或者使用api key进行注册（如果有）",
     "Main.ok": "回复以下数字选择服务：\n1.帐记服务\n2.开发者中心\n\n:在菜单中，回复*返回上一层，回复#返回主菜单\n【更多内容正在开发】",

@@ -4,6 +4,14 @@
         "NickName": "Tiya Anlite",
         "Permission": {
             "AccountBook": true,
+            "DevZone": true
+        }
+    },
+    "50534525":{
+        "isUsed": false,
+        "NickName": "SYH",
+        "Permission": {
+            "AccountBook": true,
             "DevZone": false
         }
     }
