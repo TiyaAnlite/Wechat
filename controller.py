@@ -5,12 +5,17 @@ import json
 import os
 import time
 
+class MyException(Exception):
+    def __init__(self, message):
+        Exception.__init__(self)
+        self.message = message 
+        
 class UserReader(object): #用户数据读写器
     def __init__(self, user): #读取构造[读结构]
-        self.user = user
-        if os.path.isfile("users/" + self.user + ".json"):
-            file = "users/" + str(self.user)
-            re_UserData = open(file, "r+")
+        self.User = user
+        self.file = "users/" + str(self.User) + ".json"
+        if os.path.isfile(self.file):
+            re_UserData = open(self.file, "r+")
             self.Data = json.loads(re_UserData.read)
             self.Read = True
             re_UserData.close()
@@ -27,32 +32,31 @@ class UserReader(object): #用户数据读写器
         Permission = {"AccountBook": False, "DevZone": False}
         if key:
             try:
-                 if api_key[key][isUsed]: #key鉴权
-                     raise MyException("This Api Key has been used: ",key)
-                 NickName = api_key[key]["NickName"]
-                 Permission = api_key[key]["Permission"]
-                 Data.AccountBook = AccountBook_Socket(Permission[AccountBook]) #注意：传入的是要对应模块权限的布尔值
-                Name = self.user
+                if api_key["key"]["isUsed"]: #key鉴权
+                    raise MyException("This Api Key has been used: " + key)
+                NickName = api_key["key"]["NickName"]
+                Permission = api_key["key"]["Permission"]
+                Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
+                Name = self.User
                 callback = "Content.keyok"
-            except expression as identifier:
-                print "[Controller] UserRegister Callback: ", identifier
-                return "Content.illegalkey"
+            except MyException, e:
+                print "[Controller] UserRegister Callback: ", e
+                callback = "Content.illegalkey"
         else:
             callback = "Content.onkeyok"
-            Name = self.user
+            Name = self.User
 
         if Name: #真正开始写入用户数据的部分
             while Name:
                 try:
-                    path = "users/" + Name
-                    userfile = open(path,"w+")
+                    userfile = open(self.file,"w")
                     writedata = {}
                     waitfordatakey = ["Name", "NickName", "Status"] #这里存放的是除字典以外的元素数据
                     waitfordata = [Name, NickName, Status]
                     # 由于Python 2不支持在列表中存放字典元素，因此包含字典数据的要分开处理
                     writedata["Permission"] = Permission
-                    if Data.AccountBook: #如果未授权是返回False，如果变量不存在会出错
-                        writedata["Data.AccountBook"] = Data.AccountBook
+                    if Data_AccountBook: #如果未授权是返回False，如果变量不存在会出错
+                        writedata["Data.AccountBook"] = Data_AccountBook
 
                     for key, data in zip(waitfordatakey,waitfordata): #将数据的键与值打包，并对应赋予完成绑定
                         writedata[key] = data
@@ -61,7 +65,7 @@ class UserReader(object): #用户数据读写器
                     userfile.close()
                     Name = False #循环标记，以离开循环
 
-                except expression:
+                except:
                     print "[Controller] Cannot write user data,try again"
                     time.sleep(0.1) #IO操作延时
 
@@ -75,28 +79,46 @@ class UserReader(object): #用户数据读写器
         else:
             return False
 
-    def UserIO(self): #用户数据写入器[写结构]
-        pass
+    def Update(self): #用户数据写入器[写结构]
+        data = json.dumps(self.Data,sort_keys=True, indent=4, separators=(',', ': '))
+        userfile = open(self.file,"w")
+        userfile.write(data)
+        userfile.close()
 
 
 
 class CallBackReader(object): #返回码解析对象，服务初始化时调用
     def __init__(self):
-        file = open("config/callback.json", "r")
-        self.Data = json.loads(file.read())
-        file.close()
+        dis_done = True
+        while dis_done:
+            try:
+                file = open("config/callback.json", "r")
+                self.Data = json.loads(file.read())
+                file.close()
+                dis_done = False
+            except:
+                print "[IO] Cannot read system callback data,try again"
+                time.sleep(0.1)
+        
     
 
 class ListReader(object): #菜单列表解析对象，服务初始化时调用
     def __init__(self):
-        file = open("config/list.json", "r")
-        self.Data = json.loads(file.read())
-        file.close()
+        dis_done = True
+        while dis_done:
+            try:
+                file = open("config/list.json", "r")
+                self.Data = json.loads(file.read())
+                file.close()
+                dis_done = False
+            except:
+                print "[IO] Cannot read system list data,try again"
+                time.sleep(0.1)
+            
 
 class ContentReader(object): #文本解析中心
     pass
 
-# json.dumps(a,sort_keys=True, indent=4, separators=(',', ': '))
 
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
     User = UserReader(User)
