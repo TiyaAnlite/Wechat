@@ -129,8 +129,10 @@ class ContentReader(object): #文本解析中心
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
     User = UserReader(User)
     if User.Read: #用户鉴权
-        Reader = ContentReader(User.Data, Content, IOList)
-        data, callback = ContentReader.process()
+        Reader = ContentReader(User.Data, Content, IOList) #先传入，初始化
+        User.Data, callback = ContentReader.process() #再处理，接受输出
+        User(update)
+        return callback
 
     else: #非法用户区域
         try: #未注册用户输入的是数字？

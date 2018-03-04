@@ -12,12 +12,12 @@
         "#": "Main"
     },
     "AccountBook.checkout": {
-        "0": "AccountBook.checkout.ok",
+        "0": "Model.AccountBook.checkout",
         "*": "AccountBook",
         "#": "Main"
     },
     "AccountBook.transfer": {
-        "all": "AccountBook.transfer.ok",
+        "all": "Model.AccountBook.transfer",
         "*": "AccountBook",
         "#": "Main"
     },
