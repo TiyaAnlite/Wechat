@@ -52,7 +52,7 @@ class Handle(object):
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
                 content = recMsg.Content
-                recontent = controller.input(toUser, content, IOList) #用户信息，内容送入控制器，同时将两个系统IO变量送回控制器
+                recontent = controller.input(toUser, content, IOList) #用户信息，内容送入控制器，同时将其中一个系统IO变量送回控制器
                 IOrecontent = IOCallBack[recontent].encode("utf-8") #中文信息必须要先被UTF-8编码，IOCallback不再送入控制器
                 replyMsg = reply.TextMsg(toUser, fromUser, IOrecontent) 
                 # replayMsg = "测试状态"
