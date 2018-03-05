@@ -159,6 +159,7 @@ class ContentReader(object): #文本解析中心
 
 
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
+    print "[COM]Start to create user obj."
     User = UserReader(User)
     print "[COM]Created User object"
     if User.Read: #用户鉴权
