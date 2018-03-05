@@ -136,7 +136,7 @@ class ContentReader(object): #文本解析中心
             else:
                 callback.append(NextZone + ".illegal")
         else:
-            if "custom" in self.IO[self.LastStatus]: #检查区域是否支持自定义消息，为了避免忘记直接改成检查是否存在键
+            if "custom" in self.IO[self.LastStatus]: #检查区域是否支持自定义消息，为了避免忘记直接改成检查是否存在键
                 callback.append("开发还尚未完成")
             else:
                 callback.append("Content.illegal")
