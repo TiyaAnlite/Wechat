@@ -53,9 +53,11 @@ class Handle(object):
                 fromUser = recMsg.ToUserName
                 content = recMsg.Content
                 recontent = controller.input(toUser, content, IOList) #用户信息，内容送入控制器，同时将其中一个系统IO变量送回控制器，同时为了适应多行输出，输出内容已改为列表数据
-                for i, e in zip(recontent, range(len(recontent))): #支持多行输出，后面是为了计数，注意它是从0开始计数的
+                e = 0
+                for i in recontent: #支持多行输出，后面是为了计数，注意它是从0开始计数的
                     if e > 0:
                         IOrecontent = IOrecontent + '\n'
+                    e = e + 1
                     if i in IOCallBack: #部分消息是自定义的，为了识别，先会和库的配置先匹配
                         IOrecontent = IOCallBack[recontent].encode("utf-8") #中文信息必须要先被UTF-8编码，IOCallback不再送入控制器
                     else:
