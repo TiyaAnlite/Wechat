@@ -59,6 +59,7 @@ class Handle(object):
                 e = 0
                 print "[Conver]IOMsg"
                 IOrecontent = ""
+                print IOCallBack
                 print "IOCakkback: "
                 print recontent
                 print IOCallBack[recontent]
