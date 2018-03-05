@@ -62,13 +62,12 @@ class Handle(object):
                 # print IOCallBack
                 print "IOCakkback: "
                 print recontent
-                # print IOCallBack[recontent]
                 for i in recontent: #支持多行输出，后面是为了计数，注意它是从0开始计数的
                     if e > 0:
                         IOrecontent = IOrecontent + '\n'
                     e = e + 1
-                    if recontent in IOCallBack: #部分消息是自定义的，为了识别，先会和库的配置先匹配
-                        IOrecontent = IOrecontent + IOCallBack[recontent].encode("utf-8") #中文信息必须要先被UTF-8编码，IOCallback不再送入控制器
+                    if i in IOCallBack: #部分消息是自定义的，为了识别，先会和库的配置先匹配
+                        IOrecontent = IOrecontent + IOCallBack[i].encode("utf-8") #中文信息必须要先被UTF-8编码，IOCallback不再送入控制器
                     else:
                         IOrecontent = IOrecontent + recontent
                 replyMsg = reply.TextMsg(toUser, fromUser, IOrecontent) 
