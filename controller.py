@@ -174,6 +174,6 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
                 return User.register(key)
 
         except: #输入的不是数字
-            return ["Content.illegal"]
+            return "Content.illegal"
 
 
