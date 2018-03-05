@@ -127,7 +127,7 @@ class ContentReader(object): #文本解析中心
         callback = []
         model = False
         if self.Content in self.IO[self.LastStatus]: #通常消息处理
-            NextStatus = self.IO[self.LastStatus][self.Content]
+            NextStatus = self.IO[self.LastStatus][self.Content]
             NextZone = NextStatus.split('.')
             NextZone = NextZone[0]
             if self.Userdata["Permission"][NextStatus]: #内部区域鉴权
