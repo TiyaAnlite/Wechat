@@ -37,6 +37,7 @@ class UserReader(object): #用户数据读写器
         if key:
             try:
                 if key in api_key:
+                    print "[Key]Check done"
                     if api_key["key"]["isUsed"]: #key鉴权
                         raise MyException("This Api Key has been used: " + key)
                     NickName = api_key["key"]["NickName"]
@@ -45,6 +46,7 @@ class UserReader(object): #用户数据读写器
                     Name = self.User
                     callback = ["Content.keyok"]
                 else:
+                    print "[Key]Worng key"
                     raise MyException("Worng key: " + key)
             except MyException, e:
                 print "[Controller] UserRegister Callback: ", e
@@ -168,6 +170,7 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
     User = UserReader(User)
     print "[COM]Created User object"
     if User.Read: #用户鉴权
+        print "[COM]User check"
         Reader = ContentReader(User.Data, Content, IOList) #先传入，初始化
         User.Data, callback = ContentReader.process() #再处理，接受输出
         User(update)
