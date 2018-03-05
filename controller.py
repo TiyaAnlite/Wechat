@@ -124,21 +124,32 @@ class ContentReader(object): #文本解析中心
         
 
     def zone(self): #区域分发器，决定应跳往哪个节点
-        if self.Content in self.IO[self.LastStatus]:
+        callback = []
+        model = False
+        if self.Content in self.IO[self.LastStatus]: #通常消息处理
             NextStatus = self.IO[self.LastStatus][self.Content]
-            
+            NextZone = NextStatus.split('.')
+            NextZone = NextZone[0]
+            if self.Userdata["Permission"][NextStatus]: #内部区域鉴权
+                self.Userdata["Status"] = NextStatus
+                callback.append(NextZone)
+            else:
+                callback.append(NextZone + ".illegal")
         else:
             if "custom" in self.IO[self.LastStatus]: #检查区域是否支持自定义消息，为了避免忘记直接改成检查是否存在键
-                
+                callback.append("开发还尚未完成")
             else:
-                return 
+                callback.append("Content.illegal")
+                callback.append(self.LastZone)
+         
+        return callback, model
     def process(self):
         self.LastStatus = self.Userdata["Status"]
-        self.LsatZone = self.Userdata["Status"].split('.')
-        self.LsatZone = self.LsatZone[0]
-        callback, model = zone()
+        self.LastZone = self.Userdata["Status"].split('.')
+        self.LastZone = self.LastZone[0]
+        ZoneCallback, model = zone()
         if model:
-            
+            pass
         else:
             return self.Userdata, callback
 
