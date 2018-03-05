@@ -14,9 +14,11 @@ class UserReader(object): #用户数据读写器
     def __init__(self, user): #读取构造[读结构]
         self.User = user
         self.file = "users/" + str(self.User) + ".json"
+        print "[UR]init"
         if os.path.isfile(self.file):
             re_UserData = open(self.file, "r+")
-            self.Data = json.loads(re_UserData.read)
+            json_string = json.dumps(re_UserData.read)
+            self.Data = json.loads(json_string)
             self.Read = True
             re_UserData.close()
         else:
@@ -158,6 +160,7 @@ class ContentReader(object): #文本解析中心
 
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
     User = UserReader(User)
+    print "[COM]Created User object'
     if User.Read: #用户鉴权
         Reader = ContentReader(User.Data, Content, IOList) #先传入，初始化
         User.Data, callback = ContentReader.process() #再处理，接受输出
