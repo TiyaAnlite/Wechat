@@ -17,13 +17,14 @@
         "#": "Main"
     },
     "AccountBook.transfer": {
-        "all": "Model.AccountBook.transfer",
+        "custom": "Model.AccountBook.transfer",
         "*": "AccountBook",
         "#": "Main"
     },
     "DevZone": {
          "1": "DevZone.ab_check",
          "2": "DevZone.userlist",
-         "3": "DevZone.usercheck"
+         "3": "DevZone.usercheck",
+         "custom": true
     }
 }

@@ -38,12 +38,12 @@ class UserReader(object): #用户数据读写器
                 Permission = api_key["key"]["Permission"]
                 Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
                 Name = self.User
-                callback = "Content.keyok"
+                callback = ["Content.keyok"]
             except MyException, e:
                 print "[Controller] UserRegister Callback: ", e
-                callback = "Content.illegalkey"
+                callback = ["Content.illegalkey"]
         else:
-            callback = "Content.onkeyok"
+            callback = ["Content.onkeyok"]
             Name = self.User
 
         if Name: #真正开始写入用户数据的部分
@@ -121,9 +121,26 @@ class ContentReader(object): #文本解析中心
         self.Userdata = user
         self.Content = content
         self.IO = io
+        
 
+    def zone(self): #区域分发器，决定应跳往哪个节点
+        if self.Content in self.IO[self.LastStatus]:
+            NextStatus = self.IO[self.LastStatus][self.Content]
+            
+        else:
+            if "custom" in self.IO[self.LastStatus]: #检查区域是否支持自定义消息，为了避免忘记直接改成检查是否存在键
+                
+            else:
+                return 
     def process(self):
-        pass
+        self.LastStatus = self.Userdata["Status"]
+        self.LsatZone = self.Userdata["Status"].split('.')
+        self.LsatZone = self.LsatZone[0]
+        callback, model = zone()
+        if model:
+            
+        else:
+            return self.Userdata, callback
 
 
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
@@ -144,6 +161,6 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
                 return User.register(key)
 
         except: #输入的不是数字
-            return "Content.illegal"
+            return ["Content.illegal"]
 
 
