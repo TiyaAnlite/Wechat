@@ -102,8 +102,8 @@ class CallBackReader(object): #返回码解析对象，服务初始化时调用
         while dis_done:
             try:
                 file = open("config/callback.json", "r")
-                json_string = json.dumps(file.read())
-                self.Data = json.loads(json_string)
+                # json_string = json.dumps(file.read())
+                self.Data = json.loads(file.read())
                 file.close()
                 dis_done = False
             except:
@@ -118,8 +118,8 @@ class ListReader(object): #菜单列表解析对象，服务初始化时调用
         while dis_done:
             try:
                 file = open("config/list.json", "r")
-                json_string = json.dumps(file.read())
-                self.Data = json.loads(json_string)
+                # json_string = json.dumps(file.read())
+                self.Data = json.loads(file.read())
                 file.close()
                 dis_done = False
             except:
