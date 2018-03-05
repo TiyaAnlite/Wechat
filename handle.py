@@ -10,7 +10,9 @@ import controller
            
 class Handle(object):
     def reReadIO(self): #读取系统配置
+        print "[Load]IOCallBack"
         IOCallBack = controller.CallBackReader()
+        print "[Load]IOList"
         IOList = controller.ListReader()
         return IOCallBack.Data, IOList.Data
 
