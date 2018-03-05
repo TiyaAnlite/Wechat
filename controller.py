@@ -16,12 +16,14 @@ class UserReader(object): #用户数据读写器
         self.file = "users/" + str(self.User) + ".json"
         print "[UR]init"
         if os.path.isfile(self.file):
+            print "[UR]Is User"
             re_UserData = open(self.file, "r+")
             json_string = json.dumps(re_UserData.read)
             self.Data = json.loads(json_string)
             self.Read = True
             re_UserData.close()
         else:
+            print "[UR]Not User"
             self.Read = False
 
     def register(self, key=False): #用户注册[读/写结构]
