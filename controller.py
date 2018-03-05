@@ -36,13 +36,16 @@ class UserReader(object): #用户数据读写器
         Permission = {"AccountBook": False, "DevZone": False}
         if key:
             try:
-                if api_key["key"]["isUsed"]: #key鉴权
-                    raise MyException("This Api Key has been used: " + key)
-                NickName = api_key["key"]["NickName"]
-                Permission = api_key["key"]["Permission"]
-                Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
-                Name = self.User
-                callback = ["Content.keyok"]
+                if key in api_key:
+                    if api_key["key"]["isUsed"]: #key鉴权
+                        raise MyException("This Api Key has been used: " + key)
+                    NickName = api_key["key"]["NickName"]
+                    Permission = api_key["key"]["Permission"]
+                    Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
+                    Name = self.User
+                    callback = ["Content.keyok"]
+                else:
+                    raise MyException("Worng key: " + key)
             except MyException, e:
                 print "[Controller] UserRegister Callback: ", e
                 callback = ["Content.illegalkey"]
