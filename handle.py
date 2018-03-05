@@ -63,10 +63,10 @@ class Handle(object):
                     if e > 0:
                         IOrecontent = IOrecontent + '\n'
                     e = e + 1
-                    if i in IOCallBack: #部分消息是自定义的，为了识别，先会和库的配置先匹配
+                    if recontent in IOCallBack: #部分消息是自定义的，为了识别，先会和库的配置先匹配
                         IOrecontent = IOrecontent + IOCallBack[recontent].encode("utf-8") #中文信息必须要先被UTF-8编码，IOCallback不再送入控制器
                     else:
-                        IOrecontent = IOrecontent + i
+                        IOrecontent = IOrecontent + recontent
                 replyMsg = reply.TextMsg(toUser, fromUser, IOrecontent) 
                 # replayMsg = "测试状态"
                 return replyMsg.send()
