@@ -183,6 +183,6 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
 
         except: #输入的不是数字
             print "[COM]illegal"
-            return "Content.illegal"
+            return ["Content.illegal"]
 
 
