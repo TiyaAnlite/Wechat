@@ -178,8 +178,7 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
 
     else: #非法用户区域
         print "[Com]Unreg"
-        try: #未注册用户输入的是数字？
-            key = int(Content)
+        if isinstance(key,int): #未注册用户输入的是数字？
             print "[Com]key"
             if key == 0: #无key注册模式
                 return User.register()
@@ -187,7 +186,7 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
             else: #key注册模式，内部鉴权
                 return User.register(key)
 
-        except: #输入的不是数字
+        else: #输入的不是数字
             print "[COM]illegal"
             return ["Content.illegal"]
 
