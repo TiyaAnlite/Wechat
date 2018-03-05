@@ -62,7 +62,7 @@ class Handle(object):
                 # print IOCallBack
                 print "IOCakkback: "
                 print recontent
-                print IOCallBack[recontent]
+                # print IOCallBack[recontent]
                 for i in recontent: #支持多行输出，后面是为了计数，注意它是从0开始计数的
                     if e > 0:
                         IOrecontent = IOrecontent + '\n'
