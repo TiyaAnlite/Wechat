@@ -54,6 +54,7 @@ class Handle(object):
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
                 content = recMsg.Content
+                print "[Process]push content"
                 recontent = controller.input(toUser, content, IOList) #用户信息，内容送入控制器，同时将其中一个系统IO变量送回控制器，同时为了适应多行输出，输出内容已改为列表数据
                 e = 0
                 print "[Conver]IOMsg"
