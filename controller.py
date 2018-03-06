@@ -180,6 +180,9 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
         print "[Com]Unreg"
         try:
             Content = int(Content)
+        except:
+            pass
+        
         if isinstance(Content,int): #未注册用户输入的是数字？
             print "[Com]key"
             if Content == 0: #无key注册模式
