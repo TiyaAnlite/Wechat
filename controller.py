@@ -14,12 +14,16 @@ class UserReader(object): #用户数据读写器
     def __init__(self, user): #读取构造[读结构]
         self.User = user
         self.file = "users/" + str(self.User) + ".json"
+        print "[UR]init"
         if os.path.isfile(self.file):
+            print "[UR]Is User"
             re_UserData = open(self.file, "r+")
-            self.Data = json.loads(re_UserData.read)
+            json_string = json.dumps(re_UserData.read)
+            self.Data = json.loads(json_string)
             self.Read = True
             re_UserData.close()
         else:
+            print "[UR]Not User"
             self.Read = False
 
     def register(self, key=False): #用户注册[读/写结构]
@@ -32,13 +36,18 @@ class UserReader(object): #用户数据读写器
         Permission = {"AccountBook": False, "DevZone": False}
         if key:
             try:
-                if api_key["key"]["isUsed"]: #key鉴权
-                    raise MyException("This Api Key has been used: " + key)
-                NickName = api_key["key"]["NickName"]
-                Permission = api_key["key"]["Permission"]
-                Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
-                Name = self.User
-                callback = ["Content.keyok"]
+                if key in api_key:
+                    print "[Key]Check done"
+                    if api_key["key"]["isUsed"]: #key鉴权
+                        raise MyException("This Api Key has been used: " + key)
+                    NickName = api_key["key"]["NickName"]
+                    Permission = api_key["key"]["Permission"]
+                    Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
+                    Name = self.User
+                    callback = ["Content.keyok"]
+                else:
+                    print "[Key]Worng key"
+                    raise MyException("Worng key: " + key)
             except MyException, e:
                 print "[Controller] UserRegister Callback: ", e
                 callback = ["Content.illegalkey"]
@@ -93,6 +102,7 @@ class CallBackReader(object): #返回码解析对象，服务初始化时调用
         while dis_done:
             try:
                 file = open("config/callback.json", "r")
+                # json_string = json.dumps(file.read())
                 self.Data = json.loads(file.read())
                 file.close()
                 dis_done = False
@@ -108,6 +118,7 @@ class ListReader(object): #菜单列表解析对象，服务初始化时调用
         while dis_done:
             try:
                 file = open("config/list.json", "r")
+                # json_string = json.dumps(file.read())
                 self.Data = json.loads(file.read())
                 file.close()
                 dis_done = False
@@ -126,8 +137,8 @@ class ContentReader(object): #文本解析中心
     def zone(self): #区域分发器，决定应跳往哪个节点
         callback = []
         model = False
-        if self.Content in self.IO[self.LastStatus]: #通常消息处理
-            NextStatus = self.IO[self.LastStatus][self.Content]
+        if self.Content in self.IO[self.LastStatus]: #通常消息处理
+            NextStatus = self.IO[self.LastStatus][self.Content]
             NextZone = NextStatus.split('.')
             NextZone = NextZone[0]
             if self.Userdata["Permission"][NextStatus]: #内部区域鉴权
@@ -136,7 +147,7 @@ class ContentReader(object): #文本解析中心
             else:
                 callback.append(NextZone + ".illegal")
         else:
-            if "custom" in self.IO[self.LastStatus]: #检查区域是否支持自定义消息，为了避免忘记直接改成检查是否存在键
+            if "custom" in self.IO[self.LastStatus]: #检查区域是否支持自定义消息，为了避免忘记直接改成检查是否存在键
                 callback.append("开发还尚未完成")
             else:
                 callback.append("Content.illegal")
@@ -155,23 +166,28 @@ class ContentReader(object): #文本解析中心
 
 
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
+    print "[COM]Start to create user obj."
     User = UserReader(User)
+    print "[COM]Created User object"
     if User.Read: #用户鉴权
+        print "[COM]User check"
         Reader = ContentReader(User.Data, Content, IOList) #先传入，初始化
         User.Data, callback = ContentReader.process() #再处理，接受输出
         User(update)
         return callback
 
     else: #非法用户区域
-        try: #未注册用户输入的是数字？
-            key = int(Content)
-            if key == 0: #无key注册模式
+        print "[Com]Unreg"
+        if isinstance(Content,int): #未注册用户输入的是数字？
+            print "[Com]key"
+            if Content == 0: #无key注册模式
                 return User.register()
 
             else: #key注册模式，内部鉴权
                 return User.register(key)
 
-        except: #输入的不是数字
+        else: #输入的不是数字
+            print "[COM]illegal"
             return ["Content.illegal"]
 
 
