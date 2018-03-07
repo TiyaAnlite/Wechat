@@ -27,9 +27,13 @@ class UserReader(object): #用户数据读写器
             self.Read = False
 
     def register(self, key=False): #用户注册[读/写结构]
-        key_file = open("config/apikey.json", "r+")
+        key_file = "reading"
+        while key_file == "reading":
+            try:
+                key_file = open("config/apikey.json", "w")
+            except:
+                time.sleep(0.1)
         api_key = json.loads(key_file.read())
-        key_file.close()
         Name = False #为下面写入器打标记的
         NickName = None
         Status = "Main"
@@ -39,13 +43,18 @@ class UserReader(object): #用户数据读写器
                 if key in api_key:
                     print "[Key]Check done"
                     if api_key["key"]["isUsed"]: #key鉴权
+                        key_file.close()
                         raise MyException("This Api Key has been used: " + str(key))
                     NickName = api_key["key"]["NickName"]
                     Permission = api_key["key"]["Permission"]
                     Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
                     Name = self.User
+                    api_key["key"]["isUsed"] = False
+                    key_file.write(
+                    key_file.close()
                     callback = ["Content.keyok"]
                 else:
+                    key_file.close()
                     print "[Key]Worng key"
                     raise MyException("Worng key: " + str(key))
             except MyException, e:
@@ -55,29 +64,22 @@ class UserReader(object): #用户数据读写器
             callback = ["Content.onkeyok"]
             Name = self.User
 
-        if Name: #真正开始写入用户数据的部分
-            while Name:
-                try:
-                    userfile = open(self.file,"w")
-                    writedata = {}
-                    waitfordatakey = ["Name", "NickName", "Status"] #这里存放的是除字典以外的元素数据
-                    waitfordata = [Name, NickName, Status]
-                    # 由于Python 2不支持在列表中存放字典元素，因此包含字典数据的要分开处理
-                    writedata["Permission"] = Permission
-                    if Data_AccountBook: #如果未授权是返回False，如果变量不存在会出错
-                        writedata["Data.AccountBook"] = Data_AccountBook
+        if Name: #构造写入数据，写操作交给写结构，与存取数据合并
+            writedata = {}
+            waitfordatakey = ["Name", "NickName", "Status"] #这里存放的是除字典以外的元素数据
+            waitfordata = [Name, NickName, Status]
+            # 由于Python 2不支持在列表中存放字典元素，因此包含字典数据的要分开处理
+            writedata["Permission"] = Permission
+            if Data_AccountBook: #如果未授权是返回False，如果变量不存在会出错
+                writedata["Data.AccountBook"] = Data_AccountBook
 
-                    for key, data in zip(waitfordatakey,waitfordata): #将数据的键与值打包，并对应赋予完成绑定
-                        writedata[key] = data
+            for key, data in zip(waitfordatakey,waitfordata): #将数据的键与值打包，并对应赋予完成绑定
+                writedata[key] = data
 
-                    userfile.write(writedata)
-                    userfile.close()
-                    Name = False #循环标记，以离开循环
+            self.Data = writedata
+            self.Update()
 
-                except:
-                    print "[Controller] Cannot write user data,try again"
-                    time.sleep(0.1) #IO操作延时
-
+               
         return callback
 
 
@@ -89,10 +91,16 @@ class UserReader(object): #用户数据读写器
             return False
 
     def Update(self): #用户数据写入器[写结构]
-        data = json.dumps(self.Data,sort_keys=True, indent=4, separators=(',', ': '))
-        userfile = open(self.file,"w")
-        userfile.write(data)
-        userfile.close()
+        try:
+            data = json.dumps(self.Data,sort_keys=True, indent=4, separators=(',', ': '))
+            userfile = open(self.file,"w")
+            userfile.write(data)
+            userfile.close()
+        
+        except Exception as e:
+           print "[Controller] Cannot write user data,try again/n", e
+           time.sleep(0.1) #IO操作延时
+
 
 
 
