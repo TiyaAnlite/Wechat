@@ -50,7 +50,7 @@ class UserReader(object): #用户数据读写器
                     Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
                     Name = self.User
                     api_key["key"]["isUsed"] = False
-                    key_file.write(
+                    key_file.write()
                     key_file.close()
                     callback = ["Content.keyok"]
                 else:
