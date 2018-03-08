@@ -52,7 +52,8 @@ class UserReader(object): #用户数据读写器
                     Name = self.User
                     api_key[key]["isUsed"] = False
                     print "Writing key data..."
-                    key_file.write()
+                    keydata = json.dumps(api_key,sort_keys=True, indent=4, separators=(',', ': '))
+                    key_file.write(keydata)
                     key_file.close()
                     callback = ["Content.keyok"]
                     print "Start to create user(key used)"
