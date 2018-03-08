@@ -30,10 +30,16 @@ class UserReader(object): #用户数据读写器
         key_file = "reading"
         while key_file == "reading":
             try:
-                key_file = open("config/apikey.json", "r+")
+                key_file = open("config/apikey.json", "r")
             except:
                 time.sleep(0.1)
         api_key = json.loads(key_file.read())
+        key_file.close()
+        del key_file
+            try:
+                    key_file = open("config/apikey.json", "w")
+                except:
+                    time.sleep(0.1)
         Name = False #为下面写入器打标记的
         NickName = None
         Status = "Main"
