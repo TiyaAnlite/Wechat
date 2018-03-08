@@ -45,25 +45,29 @@ class UserReader(object): #用户数据读写器
                     if api_key[key]["isUsed"]: #key鉴权
                         key_file.close()
                         raise MyException("This Api Key has been used: " + str(key))
+                    print "[Key]Is key can benn use."
                     NickName = api_key[key]["NickName"]
                     Permission = api_key[key]["Permission"]
                     Data_AccountBook = self.AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
                     Name = self.User
                     api_key[key]["isUsed"] = False
+                    print "Writing key data..."
                     key_file.write()
                     key_file.close()
                     callback = ["Content.keyok"]
+                    print "Start to create user(key used)"
                 else:
                     key_file.close()
                     print "[Key]Worng key"
                     raise MyException("Worng key: " + str(key))
-            except Exception as e:
+            except MyException as e:
                 print "[Controller] UserRegister Callback: ", e
 
                 callback = ["Content.illegalkey"]
         else:
             callback = ["Content.onkeyok"]
             Name = self.User
+            print "Start to create user"
 
         if Name: #构造写入数据，写操作交给写结构，与存取数据合并
             writedata = {}
