@@ -45,11 +45,11 @@ class UserReader(object): #用户数据读写器
                     if api_key["key"]["isUsed"]: #key鉴权
                         key_file.close()
                         raise MyException("This Api Key has been used: " + str(key))
-                    NickName = api_key["key"]["NickName"]
-                    Permission = api_key["key"]["Permission"]
+                    NickName = api_key[key]["NickName"]
+                    Permission = api_key[key]["Permission"]
                     Data_AccountBook = self.AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
                     Name = self.User
-                    api_key["key"]["isUsed"] = False
+                    api_key[key]["isUsed"] = False
                     key_file.write()
                     key_file.close()
                     callback = ["Content.keyok"]
@@ -57,8 +57,9 @@ class UserReader(object): #用户数据读写器
                     key_file.close()
                     print "[Key]Worng key"
                     raise MyException("Worng key: " + str(key))
-            except MyException as e:
+            except Exception as e:
                 print "[Controller] UserRegister Callback: ", e
+
                 callback = ["Content.illegalkey"]
         else:
             callback = ["Content.onkeyok"]
