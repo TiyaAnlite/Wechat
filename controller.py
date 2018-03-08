@@ -18,8 +18,8 @@ class UserReader(object): #用户数据读写器
         if os.path.isfile(self.file):
             print "[UR]Is User"
             re_UserData = open(self.file, "r")
-            json_string = json.dumps(re_UserData.read)
-            self.Data = json.loads(json_string)
+            # json_string = json.dumps(re_UserData.read)
+            self.Data = json.loads(re_UserData.read())
             self.Read = True
             re_UserData.close()
         else:
