@@ -157,7 +157,7 @@ class ContentReader(object): #文本解析中心
             NextZone = NextZone[0]
             if self.Userdata["Permission"][NextZone]: #内部区域鉴权
                 self.Userdata["Status"] = NextStatus
-                callback.append(NextZone)
+                callback.append(NextStatus)
             else:
                 callback.append(NextZone + ".illegal")
         else:
