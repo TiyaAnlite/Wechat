@@ -208,7 +208,7 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
         if isinstance(Content,int): #未注册用户输入的是数字？
             print "[Com]key"
             key = str(Content)
-            if Content == 0: #无key注册模式
+            if Content == "0": #无key注册模式
                 return User.register()
 
             else: #key注册模式，内部鉴权
