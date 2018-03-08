@@ -34,17 +34,17 @@ class UserReader(object): #用户数据读写器
             except:
                 time.sleep(0.1)
         api_key = json.loads(key_file.read())
-        key_file.close()
-        del key_file
-        try:
-             key_file = open("config/apikey.json", "w")
-        except:
-            time.sleep(0.1)
         Name = False #为下面写入器打标记的
         NickName = None
         Status = "Main"
         Permission = {"AccountBook": False, "DevZone": False}
         if key:
+            key_file.close()
+            del key_file
+            try:
+                key_file = open("config/apikey.json", "w")
+            except:
+                time.sleep(0.1)
             try:
                 if key in api_key:
                     print "[Key]Check done"
@@ -72,6 +72,7 @@ class UserReader(object): #用户数据读写器
 
                 callback = ["Content.illegalkey"]
         else:
+            key_file.close()
             callback = ["Content.onkeyok"]
             Name = self.User
             print "Start to create user"
