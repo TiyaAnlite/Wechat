@@ -30,7 +30,7 @@ class UserReader(object): #用户数据读写器
         key_file = "reading"
         while key_file == "reading":
             try:
-                key_file = open("config/apikey.json", "w")
+                key_file = open("config/apikey.json", "r+")
             except:
                 time.sleep(0.1)
         api_key = json.loads(key_file.read())
