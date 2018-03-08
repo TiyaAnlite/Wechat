@@ -57,7 +57,7 @@ class UserReader(object): #用户数据读写器
                     key_file.close()
                     print "[Key]Worng key"
                     raise MyException("Worng key: " + str(key))
-            except MyException, e:
+            except MyException as e:
                 print "[Controller] UserRegister Callback: ", e
                 callback = ["Content.illegalkey"]
         else:
