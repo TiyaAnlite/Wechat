@@ -185,6 +185,7 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
     print "[COM]Created User object"
     if User.Read: #用户鉴权
         print "[COM]User checked"
+        Content = str(Content)
         Reader = ContentReader(User.Data, Content, IOList) #先传入，初始化
         User.Data, callback = Reader.process() #再处理，接受输出
         User.Update
