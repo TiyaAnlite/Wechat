@@ -186,8 +186,8 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
     if User.Read: #用户鉴权
         print "[COM]User check"
         Reader = ContentReader(User.Data, Content, IOList) #先传入，初始化
-        User.Data, callback = ContentReader.process() #再处理，接受输出
-        User(update)
+        User.Data, callback = Reader.process() #再处理，接受输出
+        User.Update
         return callback
 
     else: #非法用户区域
