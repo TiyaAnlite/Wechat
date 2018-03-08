@@ -14,16 +14,16 @@ class UserReader(object): #用户数据读写器
     def __init__(self, user): #读取构造[读结构]
         self.User = user
         self.file = "users/" + str(self.User) + ".json"
-        print "[UR]init"
+        print "[UR]init"
         if os.path.isfile(self.file):
-            print "[UR]Is User"
+            print "[UR]Is User"
             re_UserData = open(self.file, "r+")
             json_string = json.dumps(re_UserData.read)
             self.Data = json.loads(json_string)
             self.Read = True
             re_UserData.close()
         else:
-            print "[UR]Not User"
+            print "[UR]Not User"
             self.Read = False
 
     def register(self, key=False): #用户注册[读/写结构]
@@ -47,7 +47,7 @@ class UserReader(object): #用户数据读写器
                         raise MyException("This Api Key has been used: " + str(key))
                     NickName = api_key["key"]["NickName"]
                     Permission = api_key["key"]["Permission"]
-                    Data_AccountBook = AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
+                    Data_AccountBook = self.AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
                     Name = self.User
                     api_key["key"]["isUsed"] = False
                     key_file.write()
@@ -166,11 +166,11 @@ class ContentReader(object): #文本解析中心
         self.LastStatus = self.Userdata["Status"]
         self.LastZone = self.Userdata["Status"].split('.')
         self.LastZone = self.LastZone[0]
-        ZoneCallback, model = zone()
+        ZoneCallback, model = self.zone()
         if model:
             pass
         else:
-            return self.Userdata, callback
+            return self.Userdata, slef.callback
 
 
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
