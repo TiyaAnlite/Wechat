@@ -42,7 +42,7 @@ class UserReader(object): #用户数据读写器
             try:
                 if key in api_key:
                     print "[Key]Check done"
-                    if api_key["key"]["isUsed"]: #key鉴权
+                    if api_key[key]["isUsed"]: #key鉴权
                         key_file.close()
                         raise MyException("This Api Key has been used: " + str(key))
                     NickName = api_key[key]["NickName"]
