@@ -60,7 +60,7 @@ class Handle(object):
                 print "[Conver]IOMsg"
                 IOrecontent = ""
                 # print IOCallBack
-                print "IOCakkback: "
+                print "IOCallback: "
                 print recontent
                 for i in recontent: #支持多行输出，后面是为了计数，注意它是从0开始计数的
                     if e > 0:
