@@ -106,6 +106,7 @@ class UserReader(object): #用户数据读写器
     def Update(self): #用户数据写入器[写结构]
         try:
             data = json.dumps(self.Data,sort_keys=True, indent=4, separators=(',', ': '))
+            os.remove(self.file) #写入存在bug，用先删后写代替
             userfile = open(self.file,"w")
             userfile.write(data)
             userfile.close()
@@ -155,7 +156,7 @@ class ContentReader(object): #文本解析中心
         self.IO = io
         
 
-    def zone(self): #区域分发器，决定应跳往哪个节点
+    def zone(self): #区域分发器，决定应跳往哪个节点，也是通常消息处理器
         callback = []
         model = False
         if self.Content in self.IO[self.LastStatus]: #通常消息处理
@@ -169,21 +170,37 @@ class ContentReader(object): #文本解析中心
                 callback.append(NextZone + ".illegal")
         else:
             if "custom" in self.IO[self.LastStatus]: #检查区域是否支持自定义消息，为了避免忘记直接改成检查是否存在键
-                callback.append("开发还尚未完成")
+                callback = self.IO[self.LastStatus]["custom"] #返回需要调用的模块，并打上标签
+                model = True
             else:
                 callback.append("Content.illegal")
                 callback.append(self.LastZone)
          
         return callback, model
+        
+    def modelProcess(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
+        inputModel = model.spilt('.')[1]
+        inputZone = model.spilt('.')[2]
+        modelImportStr = "import model." + inputModel + " as ImportModel" #构造字符串
+        eval(modelImportStr) #表达式化
+        ModelCallback, self.Userdata = ImportModel.input(self.Content, self.Userdata)
+        return ModelCallback
+    
     def process(self):
+        model = False
         self.LastStatus = self.Userdata["Status"]
         self.LastZone = self.Userdata["Status"].split('.')
         self.LastZone = self.LastZone[0]
-        ZoneCallback, model = self.zone()
-        if model:
-            pass
+        if not self.LastZone == "Model": #第一次分发，普通消息处理方式
+            ZoneCallback, model = self.zone()
+        if model: #第二次分发，提供两种调用，模块处理方式（由菜单中调用）
+            inferModel = ZoneCallback #调用模块在返回值
+            ZoneCallback = modelProcess(inferModel)
+        if self.LastZone == "Model": #（由状态码直接重定向）
+            inferModel = self.LastStatus
+            ZoneCallback = modelProcess(inferModel)
         else:
-            return self.Userdata, ZoneCallback
+            return ZoneCallback
 
 
 def input(User, Content, IOList): #流水线，注意由于没有IOCallback，返回的必须是键值
@@ -194,7 +211,8 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
         print "[COM]User checked"
         Content = str(Content)
         Reader = ContentReader(User.Data, Content, IOList) #先传入，初始化
-        User.Data, callback = Reader.process() #再处理，接受输出
+        callback = Reader.process() #再处理，接受输出
+        User.Data = Reader.Userdata #取出用户数据
         User.Update()
         return callback
 
