@@ -183,7 +183,7 @@ class ContentReader(object): #文本解析中心
         inputZone = model.spilt('.')[2]
         modelImportStr = "import model." + inputModel + " as ImportModel" #构造字符串
         eval(modelImportStr) #表达式化
-        ModelCallback, self.Userdata = ImportModel.input(self.Content, self.Userdata)
+        ModelCallback, self.Userdata = ImportModel.input(inputZone, self.Content, self.Userdata)
         return ModelCallback
     
     def process(self):
