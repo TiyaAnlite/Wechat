@@ -30,7 +30,7 @@ class AccountBook(object):
     def transfer(self):
         UserAccount = int(self.UserAccount)
         try:
-            Request = int(self.content) #预防用户输入值非法
+            Request = int(self.Content) #预防用户输入值非法
         except:
             pass
         else:
