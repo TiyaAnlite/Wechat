@@ -31,6 +31,8 @@ class AccountBook(object):
         UserAccount = int(self.UserAccount)
         try:
             Request = int(self.content) #预防用户输入值非法
+        except:
+            pass
         else:
             if UserAccount >= Request:
                 self.Transfer = str(int(self.Transfer) + Request)
@@ -42,5 +44,6 @@ class AccountBook(object):
                 Mail.input("dev", "AccountBook.transfer", maildata)
             else:
                 self.FuctionTag = "transfer.error"
-        except:
-            pass
+    
+    def callback(self):
+        pass
