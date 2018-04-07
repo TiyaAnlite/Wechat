@@ -181,7 +181,9 @@ class ContentReader(object): #文本解析中心
     def modelProcess(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
         inputModel = model.spilt('.')[1]
         inputZone = model.spilt('.')[2]
-        modelImportStr = "import model." + inputModel + " as ImportModel" #构造字符串
+        modelImportStr = "import " + inputModel + " as ImportModel" #构造字符串
+        import sys
+        sys.path.append("model/") #加入模块搜索路径(Python2)
         eval(modelImportStr) #表达式化
         ModelCallback, self.Userdata = ImportModel.input(inputZone, self.Content, self.Userdata)
         return ModelCallback

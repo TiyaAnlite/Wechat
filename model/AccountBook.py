@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # filename: AccountBook.py
 
-import model.Mail as Mail
+import Mail
 import json
 import time
 
