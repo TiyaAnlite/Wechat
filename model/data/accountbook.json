@@ -1,0 +1,34 @@
+{
+    "MSG_model": {
+        "checkout": [
+            "M_UserName",
+            "V_UserName",
+            "M_UserAccount",
+            "V_UserAccount"
+        ],
+        "transfer": {
+            "error": [
+                "M_TransferError",
+                "M_UserAccount",
+                "V_UserAccount"
+            ],
+            "successed": [
+                "M_TransferSuccess",
+                "M_RequestAccount",
+                "V_RequestAccount",
+                "M_UserAccount",
+                "V_UserAccount",
+                "M_orderID",
+                "V_orderID"
+            ]
+        }
+    },
+    "Message": {
+        "TransferError": "转账请求未能完成",
+        "TransferSuccess": "转账请求发送成功，请等待资金响应",
+        "UserAccount": "账户余额：",
+        "UserName": "连接账户：",
+        "orderID": "订单号："
+    },
+    "Version": 1.0
+}

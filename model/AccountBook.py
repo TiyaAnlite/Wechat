@@ -30,7 +30,7 @@ class AccountBook(object):
     def transfer(self):
         UserAccount = int(self.UserAccount)
         try:
-            Request = int(self.Content) #预防用户输入值非法
+            self.RequestAccount = int(self.Content) #预防用户输入值非法
         except:
             pass
         else:
@@ -39,7 +39,7 @@ class AccountBook(object):
                 self.UserAccount = str(UserAccount - Request)
                 self.FuctionTag = "transfer.successed"
                 y, m, d, h, mi, s, null, null, null = time.localtime(time.time())
-                order_id = "T0297" + str(y) + str(m) + str(d) + str(h) + str(mi) + str(s)
+                self.orderID = "T0297" + str(y) + str(m) + str(d) + str(h) + str(mi) + str(s)
                 maildata = [order_id, time.asctime(time.localtime(time.time)), self.UserName, str(Request), self.Transfer, self.UserAccount]
                 #构建消息体：订单号，创建时间，连接用户，请求金额，总请求金额，用户余额
                 #调用Mail模块
