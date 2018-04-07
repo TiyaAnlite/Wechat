@@ -20,9 +20,9 @@ class AccountBook(object):
         self.UserAccount = str(self.Data["Data.AccountBook"]["Count"])
         self.Transfer = str(self.Data["Data.AccountBook"]["TransferCount"])
         self.UserName = self.Data["NickName"]
-        file = open("model/data/accountbook.json","r")
-        self.Appdata = json.loads(file.read())
-        file.close()
+        fp = open("model/data/accountbook.json","r")
+        self.Appdata = json.loads(fp.read())
+        fp.close()
         
     def checkout(self):
         self.FuctionTag = "checkout"
@@ -45,5 +45,23 @@ class AccountBook(object):
             else:
                 self.FuctionTag = "transfer.error"
     
-    def callback(self):
-        pass
+    
+    def callback(self): #读取，链接，模块解析器
+        key = self.FuctionTag.split('.')
+        list = self.Appdata["MSG_model"]
+        [list = list[i] for i in key] #迭代递进到对应功能目录
+        msg = [] 
+        for x in list: #逐行读取列表
+            head = x.split('_')
+            
+            if head[0] == "M" #Message键"
+                msg.append(self.Appdata["Message"][head[1]]
+            
+            if head[0] == "V" #Variable键
+                msg.append(eval("self." + head[1]))
+                
+        #写回IO，注意时刻与readIO()保持反向
+        self.Data["Data.AccountBook"]["Count"] = int(self.UserAccount)
+        self.Data["Data.AccountBook"]["TransferCount"] = int(self.Transfer)
+        
+        return msg, self.Data
