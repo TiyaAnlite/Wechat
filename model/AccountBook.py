@@ -41,6 +41,8 @@ class AccountBook(object):
                 y, m, d, h, mi, s, null, null, null = time.localtime(time.time())
                 order_id = "T0297" + str(y) + str(m) + str(d) + str(h) + str(mi) + str(s)
                 maildata = [order_id, time.asctime(time.localtime(time.time)), self.UserName, str(Request), self.Transfer, self.UserAccount]
+                #构建消息体：订单号，创建时间，连接用户，请求金额，总请求金额，用户余额
+                #调用Mail模块
                 Mail.input("dev", "AccountBook.transfer", maildata)
             else:
                 self.FuctionTag = "transfer.error"
