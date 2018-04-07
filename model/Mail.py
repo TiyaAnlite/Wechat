@@ -10,11 +10,11 @@ from email.utils import formataddr
 from email.header import Header
 
 def input(receivers, Mot, data):
-    Mail = Mail.model(receivers, Mot, data)
+    Mail = Mail_model(receivers, Mot, data)
     Mail.pack()
     Mail.send()
     
-class Mail.model(object):
+class Mail_model(object):
     def __init__(self, receivers, Mot, data):
         self.data = data
         fp = open("model/data/mail.json", "r")
@@ -57,5 +57,5 @@ class Mail.model(object):
                 map_SendMsg['To'] = formataddr(self.Mot["To"], map_rec)
                 smtpObj.sendmail(config["Sender"], map_rec, map_SendMsg.as_string())
                 smtpObj.quit()
-            except:
-                print("[Model]Mail: A mail has not been send")
+        except:
+            print("[Model]Mail: A mail has not been send")

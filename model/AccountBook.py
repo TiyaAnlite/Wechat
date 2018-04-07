@@ -51,15 +51,16 @@ class AccountBook(object):
     def callback(self): #读取，链接，模块解析器
         key = self.FuctionTag.split('.')
         list = self.Appdata["MSG_model"]
-        [list = list[i] for i in key] #迭代递进到对应功能目录
+        for i in key: #迭代递进到对应功能目录
+            list = list[i]
         msg = [] 
         for x in list: #逐行读取列表
             head = x.split('_')
             
-            if head[0] == "M" #Message键"
-                msg.append(self.Appdata["Message"][head[1]]
+            if head[0] == "M": #Message键
+                msg.append(self.Appdata["Message"][head[1]])
             
-            if head[0] == "V" #Variable键
+            if head[0] == "V": #Variable键
                 msg.append(eval("self." + head[1]))
                 
         #写回IO，注意时刻与readIO()保持反向
