@@ -163,7 +163,10 @@ class ContentReader(object): #文本解析中心
             NextStatus = self.IO[self.LastStatus][self.Content]
             NextZone = NextStatus.split('.')
             NextZone = NextZone[0]
-            if self.Userdata["Permission"][NextZone]: #内部区域鉴权
+            if NextZone == "Model": #重定向模块接口检查
+                model = True
+                callback = NextStatus
+            elif self.Userdata["Permission"][NextZone]: #内部区域鉴权
                 self.Userdata["Status"] = NextStatus
                 callback.append(NextStatus)
             else:
@@ -178,11 +181,21 @@ class ContentReader(object): #文本解析中心
          
         return callback, model
         
-    def modelProcess(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
-        inputModel = model.spilt('.')[1]
-        inputZone = model.spilt('.')[2]
-        modelImportStr = "import model." + inputModel + " as ImportModel" #构造字符串
-        eval(modelImportStr) #表达式化
+    def model_process(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
+        import model as ModelPackage #先从模块库导入模块
+        print("[ModelProcess]inputModel:")
+        print(model)
+        inputModel = model.split('.')[1]
+        print("[ModelProcess]import Model:")
+        print(inputModel)
+        inputZone = model.split('.')[2]
+        print("[ModelProcess]input Zone")
+        print(inputZone)
+        modelImportStr = "ModelPackage." + inputModel
+        print("[ModelProcess]Eval str")
+        print(modelImportStr)
+        ImportModel = eval(modelImportStr) #表达式化需调用的模块
+        print("[ModelProcess]receve model")
         ModelCallback, self.Userdata = ImportModel.input(inputZone, self.Content, self.Userdata)
         return ModelCallback
     
@@ -195,10 +208,10 @@ class ContentReader(object): #文本解析中心
             ZoneCallback, model = self.zone()
         if model: #第二次分发，提供两种调用，模块处理方式（由菜单中调用）
             inferModel = ZoneCallback #调用模块在返回值
-            ZoneCallback = modelProcess(inferModel)
+            ZoneCallback = self.model_process(inferModel)
         if self.LastZone == "Model": #（由状态码直接重定向）
             inferModel = self.LastStatus
-            ZoneCallback = modelProcess(inferModel)
+            ZoneCallback = self.model_process(inferModel)
         else:
             return ZoneCallback
 

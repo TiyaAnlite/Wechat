@@ -26,6 +26,7 @@
     "Message": {
         "TransferError": "转账请求未能完成",
         "TransferSuccess": "转账请求发送成功，请等待资金响应",
+        "RequestAccount": "请求转账金额：",
         "UserAccount": "账户余额：",
         "UserName": "连接账户：",
         "orderID": "订单号："
