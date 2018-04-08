@@ -182,7 +182,7 @@ class ContentReader(object): #文本解析中心
         return callback, model
         
     def model_process(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
-        import model as ModelPackage
+        import model as ModelPackage #先从模块库导入模块
         print("[ModelProcess]inputModel:")
         print(model)
         inputModel = model.split('.')[1]
@@ -194,7 +194,7 @@ class ContentReader(object): #文本解析中心
         modelImportStr = "ModelPackage." + inputModel
         print("[ModelProcess]Eval str")
         print(modelImportStr)
-        ImportModel = eval(modelImportStr) #表达式化
+        ImportModel = eval(modelImportStr) #表达式化需调用的模块
         print("[ModelProcess]receve model")
         ModelCallback, self.Userdata = ImportModel.input(inputZone, self.Content, self.Userdata)
         return ModelCallback
