@@ -165,7 +165,7 @@ class ContentReader(object): #文本解析中心
             NextZone = NextZone[0]
             if NextZone == "Model": #重定向模块接口检查
                 model = True
-                callback.append(NextStatus)
+                callback = NextStatus
             elif self.Userdata["Permission"][NextZone]: #内部区域鉴权
                 self.Userdata["Status"] = NextStatus
                 callback.append(NextStatus)
@@ -191,9 +191,6 @@ class ContentReader(object): #文本解析中心
         inputZone = model.split('.')[2]
         print("[ModelProcess]input Zone")
         print(inputZone)
-        #modelImportStr = "import " + inputModel + " as ImportModel" #构造字符串
-        #import sys
-        #sys.path.append("model/") #加入模块搜索路径(Python2)
         modelImportStr = "ModelPackage." + inputModel
         print("[ModelProcess]Eval str")
         print(modelImportStr)
@@ -210,7 +207,7 @@ class ContentReader(object): #文本解析中心
         if not self.LastZone == "Model": #第一次分发，普通消息处理方式
             ZoneCallback, model = self.zone()
         if model: #第二次分发，提供两种调用，模块处理方式（由菜单中调用）
-            inferModel = ZoneCallback[0] #调用模块在返回值
+            inferModel = ZoneCallback #调用模块在返回值
             ZoneCallback = self.model_process(inferModel)
         if self.LastZone == "Model": #（由状态码直接重定向）
             inferModel = self.LastStatus
