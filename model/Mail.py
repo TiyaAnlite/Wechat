@@ -11,8 +11,11 @@ from email.header import Header
 
 def input_mail(receivers, Mot, data):
     Mail = Mail_model(receivers, Mot, data)
+    print("[Model]Mail:Model input")
     Mail.pack()
+    print("[Model]Mail:Data packed")
     Mail.send()
+    print("[Model]Mail:Data sent")
     
 class Mail_model(object):
     def __init__(self, receivers, Mot, data):
