@@ -201,7 +201,7 @@ class ContentReader(object): #文本解析中心
         if not self.LastZone == "Model": #第一次分发，普通消息处理方式
             ZoneCallback, model = self.zone()
         if model: #第二次分发，提供两种调用，模块处理方式（由菜单中调用）
-            inferModel = ZoneCallback[1] #调用模块在返回值
+            inferModel = ZoneCallback[0] #调用模块在返回值
             ZoneCallback = self.model_process(inferModel)
         if self.LastZone == "Model": #（由状态码直接重定向）
             inferModel = self.LastStatus
