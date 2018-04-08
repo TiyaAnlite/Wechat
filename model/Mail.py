@@ -52,13 +52,16 @@ class Mail_model(object):
         config = self.Appdata["Config"]
         smtpObj = smtplib.SMTP()
         try:
+            print("[Model]Mail(Thread):Connect & Login to SMTP server")
             smtpObj.connect(config["Smtp_host"], config["Smtp_port"])
             smtpObj.login(config["Mail_user"], config["Mail_pass"])
+            print("[Model]Mail(Thread):Sending data to server")
             for map_rec in self.receivers:
                 map_SendMsg = self.SendMsg
                 #给结构体加上最后一个TO头，迭代中发送
                 map_SendMsg['To'] = formataddr([self.Mot["To"], map_rec])
                 smtpObj.sendmail(config["Sender"], map_rec, map_SendMsg.as_string())
                 smtpObj.quit()
+                print("[Model]Mail(SMTP):a mail object has been sent")
         except:
-            print("[Model]Mail: A mail has not been send")
+            print("[Model]Mail(SMTP): A mail has not been send")

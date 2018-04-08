@@ -33,19 +33,19 @@ class AccountBook(object):
     def transfer(self):
         UserAccount = int(self.UserAccount)
         try:
-            self.RequestAccount = int(self.Content) #预防用户输入值非法
+            RequestAccount = int(self.Content) #预防用户输入值非法
         except:
             print("[AccountBook]illegal transfer maths")
             self.FuctionTag = "transfer.error"
         else:
-            if UserAccount >= self.RequestAccount:
-                self.Transfer = str(int(self.Transfer) + self.RequestAccount)
-                self.UserAccount = str(UserAccount - self.RequestAccount)
+            if UserAccount >= RequestAccount:
+                self.Transfer = str(int(self.Transfer) + RequestAccount)
+                self.UserAccount = str(UserAccount - RequestAccount)
                 self.FuctionTag = "transfer.successed"
                 y, m, d, h, mi, s, null, null, null = time.localtime(time.time())
                 self.orderID = "T0297" + str(y) + str(m) + str(d) + str(h) + str(mi) + str(s)
                 print("[Model]AccountBook:Created an orderID")
-                maildata = [str(self.orderID), str(time.asctime(time.localtime(time.time()))), str(self.UserName), str(self.RequestAccount), str(self.Transfer), str(self.UserAccount)]
+                maildata = [str(self.orderID), str(time.asctime(time.localtime(time.time()))), str(self.UserName), str(RequestAccount), str(self.Transfer), str(self.UserAccount)]
                 #构建消息体：订单号，创建时间，连接用户，请求金额，总请求金额，用户余额
                 #调用Mail模块
                 Mail.input_mail("dev", "AccountBook.transfer", maildata)
