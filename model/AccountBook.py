@@ -32,7 +32,8 @@ class AccountBook(object):
         try:
             self.RequestAccount = int(self.Content) #预防用户输入值非法
         except:
-            pass
+            print("[AccountBook]illegal transfer maths")
+            self.FuctionTag = "transfer.error"
         else:
             if UserAccount >= self.RequestAccount:
                 self.Transfer = str(int(self.Transfer) + self.RequestAccount)
