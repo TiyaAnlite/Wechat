@@ -39,7 +39,7 @@ class Mail_model(object):
                 
         self.SendMsg = MIMEText(Msg, 'plain', 'utf-8')
         self.SendMsg['Subject'] = Header(self.Mot["Subject"], 'utf-8')
-        self.SendMsg['From'] = formataddr(self.Mot["From"], self.Appdata["Config"]["Sender"])
+        self.SendMsg['From'] = formataddr([self.Mot["From"], self.Appdata["Config"]["Sender"]])
         
     def send(self): #线程启动器
         thread = threading.Thread(target=send_thread)
@@ -54,7 +54,7 @@ class Mail_model(object):
             for map_rec in self.receivers:
                 map_SendMsg = self.SendMsg
                 #给结构体加上最后一个TO头，迭代中发送
-                map_SendMsg['To'] = formataddr(self.Mot["To"], map_rec)
+                map_SendMsg['To'] = formataddr([self.Mot["To"], map_rec])
                 smtpObj.sendmail(config["Sender"], map_rec, map_SendMsg.as_string())
                 smtpObj.quit()
         except:
