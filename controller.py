@@ -182,6 +182,7 @@ class ContentReader(object): #文本解析中心
         return callback, model
         
     def model_process(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
+        import model
         print("[ModelProcess]inputModel:")
         print(model)
         inputModel = model.split('.')[1]
@@ -190,12 +191,13 @@ class ContentReader(object): #文本解析中心
         inputZone = model.split('.')[2]
         print("[ModelProcess]input Zone")
         print(inputZone)
-        modelImportStr = "import " + inputModel + " as ImportModel" #构造字符串
-        import sys
-        sys.path.append("model/") #加入模块搜索路径(Python2)
+        #modelImportStr = "import " + inputModel + " as ImportModel" #构造字符串
+        #import sys
+        #sys.path.append("model/") #加入模块搜索路径(Python2)
+        modelImportStr = "model." + inputModel
         print("[ModelProcess]Eval str")
         print(modelImportStr)
-        eval(modelImportStr) #表达式化
+        ImportModel = eval(modelImportStr) #表达式化
         print("[ModelProcess]receve model")
         ModelCallback, self.Userdata = ImportModel.input(inputZone, self.Content, self.Userdata)
         return ModelCallback
