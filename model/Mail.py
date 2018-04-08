@@ -63,5 +63,6 @@ class Mail_model(object):
                 smtpObj.sendmail(config["Sender"], map_rec, map_SendMsg.as_string())
                 smtpObj.quit()
                 print("[Model]Mail(SMTP):a mail object has been sent")
-        except:
+        except Exception, Argment:
             print("[Model]Mail(SMTP): A mail has not been send")
+            print(Argment)
