@@ -50,10 +50,11 @@ class Mail_model(object):
         
     def send_thread(self): #SMTP交互实际结构，内部迭代receivers
         config = self.Appdata["Config"]
-        smtpObj = smtplib.SMTP()
+        
         try:
             print("[Model]Mail(Thread):Connect & Login to SMTP server")
-            smtpObj.connect(config["Smtp_host"], config["Smtp_port"])
+            smtpObj = smtplib.SMTP(config["Smtp_host"], config["Smtp_port_SSL"])
+            smtpObj.starttls() #SSL连接方式
             smtpObj.login(config["Mail_user"], config["Mail_pass"])
             print("[Model]Mail(Thread):Sending data to server")
             for map_rec in self.receivers:
