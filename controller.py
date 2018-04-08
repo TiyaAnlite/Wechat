@@ -165,6 +165,7 @@ class ContentReader(object): #文本解析中心
             NextZone = NextZone[0]
             if NextZone == "Model": #重定向模块接口检查
                 model = True
+                callback.append(NextStatus)
             elif self.Userdata["Permission"][NextZone]: #内部区域鉴权
                 self.Userdata["Status"] = NextStatus
                 callback.append(NextStatus)
@@ -180,7 +181,7 @@ class ContentReader(object): #文本解析中心
          
         return callback, model
         
-    def modelProcess(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
+    def model_process(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
         inputModel = model.spilt('.')[1]
         inputZone = model.spilt('.')[2]
         modelImportStr = "import " + inputModel + " as ImportModel" #构造字符串
@@ -199,10 +200,10 @@ class ContentReader(object): #文本解析中心
             ZoneCallback, model = self.zone()
         if model: #第二次分发，提供两种调用，模块处理方式（由菜单中调用）
             inferModel = ZoneCallback #调用模块在返回值
-            ZoneCallback = modelProcess(inferModel)
+            ZoneCallback = model_process(inferModel)
         if self.LastZone == "Model": #（由状态码直接重定向）
             inferModel = self.LastStatus
-            ZoneCallback = modelProcess(inferModel)
+            ZoneCallback = model_process(inferModel)
         else:
             return ZoneCallback
 
