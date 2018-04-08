@@ -183,7 +183,7 @@ class ContentReader(object): #文本解析中心
         
     def model_process(self, model): #模块分发中心，依据传入调用的模块，再转发用户输入和数据
         print("[ModelProcess]inputModel:")
-        print(inputModel)
+        print(model)
         inputModel = model.split('.')[1]
         inputZone = model.split('.')[2]
         modelImportStr = "import " + inputModel + " as ImportModel" #构造字符串
