@@ -185,7 +185,11 @@ class ContentReader(object): #文本解析中心
         print("[ModelProcess]inputModel:")
         print(model)
         inputModel = model.split('.')[1]
+        print("[ModelProcess]import Model:")
+        print(inputModel)
         inputZone = model.split('.')[2]
+        print("[ModelProcess]input Zone")
+        print(inputZone)
         modelImportStr = "import " + inputModel + " as ImportModel" #构造字符串
         import sys
         sys.path.append("model/") #加入模块搜索路径(Python2)
