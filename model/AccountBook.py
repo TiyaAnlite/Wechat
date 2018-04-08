@@ -49,6 +49,7 @@ class AccountBook(object):
                 #构建消息体：订单号，创建时间，连接用户，请求金额，总请求金额，用户余额
                 #调用Mail模块
                 Mail.input_mail("dev", "AccountBook.transfer", maildata)
+                self.RequestAccount = str(RequestAccount)
             else:
                 self.FuctionTag = "transfer.error"
     
