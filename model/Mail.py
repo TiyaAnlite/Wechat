@@ -42,7 +42,7 @@ class Mail_model(object):
         self.SendMsg['From'] = formataddr([self.Mot["From"], self.Appdata["Config"]["Sender"]])
         
     def send(self): #线程启动器
-        thread = threading.Thread(target=send_thread)
+        thread = threading.Thread(target=self.send_thread)
         thread.start()
         
     def send_thread(self): #SMTP交互实际结构，内部迭代receivers
