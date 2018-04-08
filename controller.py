@@ -200,10 +200,10 @@ class ContentReader(object): #文本解析中心
             ZoneCallback, model = self.zone()
         if model: #第二次分发，提供两种调用，模块处理方式（由菜单中调用）
             inferModel = ZoneCallback #调用模块在返回值
-            ZoneCallback = model_process(inferModel)
+            ZoneCallback = self.model_process(inferModel)
         if self.LastZone == "Model": #（由状态码直接重定向）
             inferModel = self.LastStatus
-            ZoneCallback = model_process(inferModel)
+            ZoneCallback = self.model_process(inferModel)
         else:
             return ZoneCallback
 
