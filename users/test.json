@@ -4,7 +4,8 @@
     "Status": "Main",
     "Permission": {
         "AccountBook": true,
-        "DevZone": false
+        "DevZone": false,
+        "Main": true
     },
     "Data.AccountBook": {
         "Count": 27,
