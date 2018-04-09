@@ -114,7 +114,10 @@ class UserReader(object): #用户数据读写器
     def Update(self): #用户数据写入器[写结构]
         try:
             data = json.dumps(self.Data,sort_keys=True, indent=4, separators=(',', ': '))
-            os.remove(self.file) #写入存在bug，用先删后写代替
+            try:
+                os.remove(self.file) #写入存在bug，用先删后写代替
+            except:
+                pass
             userfile = open(self.file,"w")
             userfile.write(data)
             userfile.close()
