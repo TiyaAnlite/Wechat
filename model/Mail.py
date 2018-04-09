@@ -31,7 +31,7 @@ class Mail_model(object):
             self.receivers = receivers
             
     def pack(self): #除了［TO］部分，其他均在此完成包装
-        Msg = str(self.Mot["Message"])
+        Msg = str(self.Mot["Message"].encode('utf-8'))
         print(Msg)
         #以下迭代值，次数等于输入的数据数目，注意range函数末尾需加一
         for i,x in zip(range(1, len(self.data) + 1), self.data):
