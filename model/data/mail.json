@@ -13,8 +13,8 @@
     "MOT": {
         "AccountBook.transfer": {
             "From": "Account System",
-            "Message": "用户：转账请求",
-            "Subject": "订单号：Value1\n生成时间：Value2\n连接用户：Value3\n请求金额：Value4\n总请求金额：Value5\n余额：Value6",
+            "Message": "订单号：Value1\n生成时间：Value2\n连接用户：Value3\n请求金额：Value4\n总请求金额：Value5\n余额：Value6",
+            "Subject": "用户：转账请求",
             "To": "Tiya Anlite"
         }
     },
