@@ -1,7 +1,7 @@
 {
     "Config": {
         "Mail_pass": "password",
-        "Mail_user": "Simple",
+        "Mail_user": "Simple@dev.com",
         "Sender": "Simple@dev.com",
         "Smtp_host": "smtp.dev.com",
         "Smtp_port_SSL": 465,
