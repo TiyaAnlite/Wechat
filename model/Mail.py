@@ -31,14 +31,17 @@ class Mail_model(object):
             self.receivers = receivers
             
     def pack(self): #除了［TO］部分，其他均在此完成包装
-        Msg = self.Mot["Message"]
+        Msg = str(self.Mot["Message"].encode('utf-8'))
+        print(Msg)
         #以下迭代值，次数等于输入的数据数目，注意range函数末尾需加一
         for i,x in zip(range(1, len(self.data) + 1), self.data):
+            print("Value" + str(i))
             find = Msg.split("Value" + str(i))
             #使用split函数简介寻找键，若键不足则弹出
             if len(find) > 1:
                 Msg = find.pop(0) #为了插入两个文本之间，先去头，顺带输出
-                Msg = Msg + [x + u for u in find] #多位点插入（单个值插多处键），表达式实现
+                # Msg = Msg + [x + u for u in find] #多位点插入（单个值插多处键），表达式实现
+                Msg = Msg + x + find[0] #暂时停用多迭代，只支持单个键插入
                 
         self.SendMsg = MIMEText(Msg, 'plain', 'utf-8')
         self.SendMsg['Subject'] = Header(self.Mot["Subject"], 'utf-8')
