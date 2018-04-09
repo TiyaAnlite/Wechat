@@ -27,10 +27,11 @@ class UserReader(object): #用户数据读写器
             self.Read = False
 
     def register(self, key=False): #用户注册[读/写结构]
-        key_file = "reading"
-        while key_file == "reading":
+        key_file_read = "reading"
+        while key_file_read == "reading":
             try:
                 key_file = open("config/apikey.json", "r")
+                key_file_read = True
             except:
                 time.sleep(0.1)
         api_key = json.loads(key_file.read())
@@ -42,6 +43,7 @@ class UserReader(object): #用户数据读写器
             key_file.close()
             del key_file
             try:
+                os.remove("config/apikey.json")
                 key_file = open("config/apikey.json", "w")
             except:
                 time.sleep(0.1)
