@@ -83,6 +83,7 @@ class UserReader(object): #用户数据读写器
             key_file.close()
             callback = ["Content.onkeyok"]
             Name = self.User
+            Data_AccountBook = self.AccountBook_Socket(Permission["AccountBook"])
             print "Start to create user"
 
         if Name: #构造写入数据，写操作交给写结构，与存取数据合并
