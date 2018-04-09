@@ -4,7 +4,7 @@
         "Mail_user": "Simple",
         "Sender": "Simple@dev.com",
         "Smtp_host": "smtp.dev.com",
-        "Smtp_port_SSL": 587,
+        "Smtp_port_SSL": 465,
         "devmail": [
             "Simple@dev.com"
         ]
