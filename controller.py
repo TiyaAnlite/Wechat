@@ -62,7 +62,7 @@ class UserReader(object): #用户数据读写器
                     Permission = api_key[key]["Permission"]
                     Data_AccountBook = self.AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
                     Name = self.User
-                    api_key[key]["isUsed"] = False
+                    api_key[key]["isUsed"] = True
                     print "Writing key data..."
                     keydata = json.dumps(api_key,sort_keys=True, indent=4, separators=(',', ': '))
                     key_file.write(keydata)
