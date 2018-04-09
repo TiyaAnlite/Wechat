@@ -13,7 +13,8 @@
         "NickName": "SYH",
         "Permission": {
             "AccountBook": true,
-            "DevZone": false
+            "DevZone": false,
+            "Main": true
         }
     }
 }

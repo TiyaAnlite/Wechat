@@ -27,28 +27,34 @@ class UserReader(object): #用户数据读写器
             self.Read = False
 
     def register(self, key=False): #用户注册[读/写结构]
-        key_file = "reading"
-        while key_file == "reading":
+        key_file_read = "reading"
+        while key_file_read == "reading":
             try:
                 key_file = open("config/apikey.json", "r")
+                key_file_read = True
             except:
                 time.sleep(0.1)
         api_key = json.loads(key_file.read())
         Name = False #为下面写入器打标记的
         NickName = None
         Status = "Main"
-        Permission = {"AccountBook": False, "DevZone": False}
+        Permission = {"AccountBook": False, "DevZone": False, "Main": True}
         if key:
             key_file.close()
             del key_file
-            try:
-                key_file = open("config/apikey.json", "w")
-            except:
-                time.sleep(0.1)
+            while True:
+                try:
+                    os.remove("config/apikey.json")
+                    key_file = open("config/apikey.json", "w")
+                    break
+                except:
+                    time.sleep(0.1)
             try:
                 if key in api_key:
                     print "[Key]Check done"
                     if api_key[key]["isUsed"]: #key鉴权
+                        keydata = json.dumps(api_key,sort_keys=True, indent=4, separators=(',', ': '))
+                        key_file.write(keydata)
                         key_file.close()
                         raise MyException("This Api Key has been used: " + str(key))
                     print "[Key]Is key can benn use."
@@ -56,7 +62,7 @@ class UserReader(object): #用户数据读写器
                     Permission = api_key[key]["Permission"]
                     Data_AccountBook = self.AccountBook_Socket(Permission["AccountBook"])  #注意：传入的是要对应模块权限的布尔值
                     Name = self.User
-                    api_key[key]["isUsed"] = False
+                    api_key[key]["isUsed"] = True
                     print "Writing key data..."
                     keydata = json.dumps(api_key,sort_keys=True, indent=4, separators=(',', ': '))
                     key_file.write(keydata)
@@ -64,6 +70,8 @@ class UserReader(object): #用户数据读写器
                     callback = ["Content.keyok"]
                     print "Start to create user(key used)"
                 else:
+                    keydata = json.dumps(api_key,sort_keys=True, indent=4, separators=(',', ': '))
+                    key_file.write(keydata)
                     key_file.close()
                     print "[Key]Worng key"
                     raise MyException("Worng key: " + str(key))
@@ -75,6 +83,7 @@ class UserReader(object): #用户数据读写器
             key_file.close()
             callback = ["Content.onkeyok"]
             Name = self.User
+            Data_AccountBook = self.AccountBook_Socket(Permission["AccountBook"])
             print "Start to create user"
 
         if Name: #构造写入数据，写操作交给写结构，与存取数据合并
@@ -106,7 +115,10 @@ class UserReader(object): #用户数据读写器
     def Update(self): #用户数据写入器[写结构]
         try:
             data = json.dumps(self.Data,sort_keys=True, indent=4, separators=(',', ': '))
-            os.remove(self.file) #写入存在bug，用先删后写代替
+            try:
+                os.remove(self.file) #写入存在bug，用先删后写代替
+            except:
+                pass
             userfile = open(self.file,"w")
             userfile.write(data)
             userfile.close()
@@ -239,7 +251,8 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
         if isinstance(Content,int): #未注册用户输入的是数字？
             print "[Com]key"
             key = str(Content)
-            if Content == "0": #无key注册模式
+            
+            if key == "0": #无key注册模式
                 return User.register()
 
             else: #key注册模式，内部鉴权
