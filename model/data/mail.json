@@ -4,7 +4,8 @@
         "Mail_user": "Simple",
         "Sender": "Simple@dev.com",
         "Smtp_host": "smtp.dev.com",
-        "Smtp_port": 25,
+        "Smtp_port_SSL": 465,
+        "Smtp_port_TLS":587,
         "devmail": [
             "Simple@dev.com"
         ]
@@ -17,5 +18,5 @@
             "To": "Tiya Anlite"
         }
     },
-    "Version": 1.0
+    "Version": 2.0
 }

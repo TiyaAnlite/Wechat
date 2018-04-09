@@ -50,19 +50,30 @@ class Mail_model(object):
         
     def send_thread(self): #SMTP交互实际结构，内部迭代receivers
         config = self.Appdata["Config"]
-        smtpObj = smtplib.SMTP()
+        
         try:
-            print("[Model]Mail(Thread):Connect & Login to SMTP server")
-            smtpObj.connect(config["Smtp_host"], config["Smtp_port"])
+            print("[Model]Mail(Thread):Connect(SSL) to SMTP server")
+            smtpObj = smtplib.SMTP_SSL(config["Smtp_host"], config["Smtp_port_SSL"])
+            # print("[Model]Mail(Thread):Connect(TLS)")
+            # smtpObj.connect(config["Smtp_host"],config["Smtp_port_TLS"])
+            # smtpObj.starttls()
+            smtpObj.connect(config["Smtp_host"])
+            print("[ModelMail(Thread):Login to smtp server")
             smtpObj.login(config["Mail_user"], config["Mail_pass"])
             print("[Model]Mail(Thread):Sending data to server")
+            
             for map_rec in self.receivers:
                 map_SendMsg = self.SendMsg
                 #给结构体加上最后一个TO头，迭代中发送
                 map_SendMsg['To'] = formataddr([self.Mot["To"], map_rec])
                 smtpObj.sendmail(config["Sender"], map_rec, map_SendMsg.as_string())
-                smtpObj.quit()
-                print("[Model]Mail(SMTP):a mail object has been sent")
+            smtpObj.quit()
+            print("[Model]Mail(SMTP):a mail object has been sent")
         except Exception, Argment:
             print("[Model]Mail(SMTP): A mail has not been send")
             print(Argment)
+            try:
+                smtpObj.quit()
+                print("[Model]Mail(SMTP):Closed a smtp connection")
+            except:
+                pass
