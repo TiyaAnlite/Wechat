@@ -40,7 +40,8 @@ class Mail_model(object):
             #使用split函数简介寻找键，若键不足则弹出
             if len(find) > 1:
                 Msg = find.pop(0) #为了插入两个文本之间，先去头，顺带输出
-                Msg = Msg + [x + u for u in find] #多位点插入（单个值插多处键），表达式实现
+                # Msg = Msg + [x + u for u in find] #多位点插入（单个值插多处键），表达式实现
+                Msg = Msg + x + find[0] #暂时停用多迭代，只支持单个键插入
                 
         self.SendMsg = MIMEText(Msg, 'plain', 'utf-8')
         self.SendMsg['Subject'] = Header(self.Mot["Subject"], 'utf-8')
