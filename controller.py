@@ -251,9 +251,11 @@ def input(User, Content, IOList): #流水线，注意由于没有IOCallback，�
             print "[Com]key"
             key = str(Content)
             if Content == "0": #无key注册模式
+                print("[Reg]No key mode")
                 return User.register()
 
             else: #key注册模式，内部鉴权
+                print("[Reg]Key mode].")
                 return User.register(key)
 
         else: #输入的不是数字
