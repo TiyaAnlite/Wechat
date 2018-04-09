@@ -57,6 +57,7 @@ class Mail_model(object):
             # smtpObj.starttls() #SSL连接方式
             smtpObj.login(config["Mail_user"], config["Mail_pass"])
             print("[Model]Mail(Thread):Sending data to server")
+            smtpObj.connect()
             for map_rec in self.receivers:
                 map_SendMsg = self.SendMsg
                 #给结构体加上最后一个TO头，迭代中发送
