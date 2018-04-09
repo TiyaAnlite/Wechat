@@ -54,9 +54,10 @@ class Mail_model(object):
         try:
             print("[Model]Mail(Thread):Connect(SSL) to SMTP server")
             smtpObj = smtplib.SMTP_SSL(config["Smtp_host"], config["Smtp_port_SSL"])
-            print("[Model]Mail(Thread):Connect(TLS)")
-            smtpObj.connect(config["Smtp_host"],config["Smtp_port_TLS"])
-            smtpObj.starttls()
+            # print("[Model]Mail(Thread):Connect(TLS)")
+            # smtpObj.connect(config["Smtp_host"],config["Smtp_port_TLS"])
+            # smtpObj.starttls()
+            smtpObj.connect(config["Smtp_host"])
             print("[ModelMail(Thread):Login to smtp server")
             smtpObj.login(config["Mail_user"], config["Mail_pass"])
             print("[Model]Mail(Thread):Sending data to server")
