@@ -42,15 +42,19 @@ class UserReader(object): #用户数据读写器
         if key:
             key_file.close()
             del key_file
-            try:
-                os.remove("config/apikey.json")
-                key_file = open("config/apikey.json", "w")
-            except:
-                time.sleep(0.1)
+            while True:
+                try:
+                    os.remove("config/apikey.json")
+                    key_file = open("config/apikey.json", "w")
+                    break
+                except:
+                    time.sleep(0.1)
             try:
                 if key in api_key:
                     print "[Key]Check done"
                     if api_key[key]["isUsed"]: #key鉴权
+                        keydata = json.dumps(api_key,sort_keys=True, indent=4, separators=(',', ': '))
+                        key_file.write(keydata)
                         key_file.close()
                         raise MyException("This Api Key has been used: " + str(key))
                     print "[Key]Is key can benn use."
@@ -66,6 +70,8 @@ class UserReader(object): #用户数据读写器
                     callback = ["Content.keyok"]
                     print "Start to create user(key used)"
                 else:
+                    keydata = json.dumps(api_key,sort_keys=True, indent=4, separators=(',', ': '))
+                    key_file.write(keydata)
                     key_file.close()
                     print "[Key]Worng key"
                     raise MyException("Worng key: " + str(key))
