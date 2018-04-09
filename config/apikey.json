@@ -1,20 +1,20 @@
 {
     "29748562": {
-        "isUsed": false,
         "NickName": "Tiya Anlite",
         "Permission": {
-            "Main": true,
             "AccountBook": true,
-            "DevZone": true
-        }
+            "DevZone": true,
+            "Main": true
+        },
+        "isUsed": true
     },
-    "50534525":{
-        "isUsed": false,
-        "NickName": "SYH",
+    "50534525": {
+        "NickName": "\u76ca\u8fbe\u83cc",
         "Permission": {
             "AccountBook": true,
             "DevZone": false,
             "Main": true
-        }
+        },
+        "isUsed": true
     }
 }
