@@ -67,3 +67,8 @@ class Mail_model(object):
         except Exception, Argment:
             print("[Model]Mail(SMTP): A mail has not been send")
             print(Argment)
+            try:
+                smtpObj.quit()
+                print("[Model]Mail(SMTP):Closed a smtp connection")
+            except:
+                pass
