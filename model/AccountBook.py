@@ -45,7 +45,7 @@ class AccountBook(object):
                 y, m, d, h, mi, s, null, null, null = time.localtime(time.time())
                 self.orderID = "T0297" + str(y) + str(m) + str(d) + str(h) + str(mi) + str(s)
                 print("[Model]AccountBook:Created an orderID")
-                maildata = [str(self.orderID), str(time.asctime(time.localtime(time.time()))), str(self.UserName), str(RequestAccount), str(self.Transfer), str(self.UserAccount)]
+                maildata = [str(self.orderID), str(time.asctime(time.localtime(time.time()))), str((self.UserName).encode('utf-8')), str(RequestAccount), str(self.Transfer), str(self.UserAccount)]
                 #构建消息体：订单号，创建时间，连接用户，请求金额，总请求金额，用户余额
                 #调用Mail模块
                 Mail.input_mail("dev", "AccountBook.transfer", maildata)
