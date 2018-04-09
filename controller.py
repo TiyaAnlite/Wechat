@@ -38,7 +38,7 @@ class UserReader(object): #用户数据读写器
         Name = False #为下面写入器打标记的
         NickName = None
         Status = "Main"
-        Permission = {"AccountBook": False, "DevZone": False}
+        Permission = {"AccountBook": False, "DevZone": False, "Main": True}
         if key:
             key_file.close()
             del key_file
